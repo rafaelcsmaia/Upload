@@ -1,0 +1,41 @@
+﻿@model Extratistico.Models.Entidades.SMTP
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/Master.cshtml";
+}
+<div class="content">
+    <script src="../../../../Scripts/jquery-1.9.1.min.js" type="text/javascript"></script>
+    <img src="../../../../Content/Images/SMTP-64.png" alt="" class="content-img" />
+
+    <h2>
+        Configurações de SMTP</h2>
+    <p>
+        Informações sobre o provedor de envio de mensagens
+    </p>
+    <fieldset>
+        <legend>SMTP</legend>
+        <div class="display-label">
+            @Html.DisplayNameFor(model => model.Host): @Html.DisplayFor(model => model.Host)
+        </div>
+        <div class="display-label">
+            @Html.DisplayNameFor(model => model.Porta): @Html.DisplayFor(model => model.Porta)
+        </div>
+        <div class="display-label">
+            @Html.DisplayNameFor(model => model.Username): @Html.DisplayFor(model => model.Username)
+        </div>
+        <div class="display-label">
+            @Html.DisplayNameFor(model => model.Password): @Html.DisplayFor(model => model.Password)
+        </div>
+        <div class="editor-label">
+                            
+                            @Html.CheckBoxFor(model => model.SSLEnabled, new { @class = "imagecheckbox" })
+                            @Html.LabelFor(model => model.SSLEnabled): 
+                            @Html.Raw(Html.ImageCheckBox(Model.SSLEnabled))
+        </div>
+    </fieldset>
+    <p>
+    <div class="btn">
+        @Html.Raw(Html.Button(HtmlHelpers.TypeActionLink.Normal, "../../../../Content/Images/configurar-20.png", Html.ActionLink("Configurar", "Configurar", "SMTP")))
+    </div>
+</p>
+</div>

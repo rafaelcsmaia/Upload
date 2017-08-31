@@ -1,0 +1,73 @@
+﻿@model Extratistico.Models.Entidades.PermissaoViewModel
+
+@{
+    ViewBag.Title = "Editar";
+    Layout = "~/Views/Shared/Master.cshtml";
+}
+<script src="@Url.Content("~/Scripts/jquery.validate.min.js")"></script>
+<script src="@Url.Content("~/Scripts/jquery.validate.unobtrusive.min.js")"></script>
+<script src="../../../../Scripts/jquery-1.9.1.min.js" type="text/javascript"></script>
+<script src="../../../../Scripts/TreeMenu.js" type="text/javascript"></script>
+<link href="../../../../Content/TreeMenu.css" rel="stylesheet" type="text/css" />
+
+<div class="content">
+    <img src="../../../../Content/Images/ico-profile-64.png" alt="" class="content-img" />
+    <h2>
+        Editando Perfil: @Html.Label(Model.Descricao)
+    </h2>
+    <p>
+        Preencha as informações e permissões do novo perfil abaixo</p>
+    @using (Html.BeginForm())
+    { @Html.ValidationSummary(false, "Os seguintes erros ocorreram durante a edição:")
+        <div class="editor-field">
+            @Html.HiddenFor(model => model.CodigoDaPermissao)
+        </div>
+        <div class="editor-label">
+            @Html.HiddenFor(model => model.Descricao)
+        </div>
+        <div class="editor-label">
+            @Html.LabelFor(model => model.funcionalidade)
+        </div>
+        <div id="tree">
+            <ul id='Root'>
+            @{int index = 0;}             
+                @foreach (var Area in Model.funcionalidade.Keys.Select(x => x.Area).Distinct())
+                {
+                    <li id="@Area" class="Area">
+                        <label for="@Area">@Area</label>
+                        <ul>
+                            @foreach (var Controller in Model.funcionalidade.Keys.Where(x => x.Area == Area && x.Action == "Index").OrderBy(x => x.ControllerDescription))
+                            {
+                                <li>
+                                     @Html.CheckBox("funcionalidades[" + @index + "].Value", Model.funcionalidade.SingleOrDefault(x => x.Key.Codigo == Controller.Codigo).Value, new { id = Controller.Codigo.ToString(), @class = "checkController checkFuncionalidade" })
+                                     @Html.Raw(Html.ImageCheckBox(Model.funcionalidade.SingleOrDefault(x => x.Key.Codigo == Controller.Codigo).Value))
+                                     <input type="hidden" name="funcionalidades[@index].Key" value="@Controller.Codigo.ToString()" class="checkController" />
+                                     <label for="@Controller.Codigo">@Controller.Descricao</label>
+                                     @{index = index + 1;}                                 
+                                    <ul>
+                                        @foreach (var Funcionalidade in Model.funcionalidade.Where(x => x.Key.Area == Area && x.Key.ControllerDescription == Controller.ControllerDescription && x.Key.Action != "Index").Select(x => x.Key))
+                                        {
+                                            <li>
+                                                @Html.CheckBox("funcionalidades[" + @index + "].Value", Model.funcionalidade.SingleOrDefault(x => x.Key.Codigo == Funcionalidade.Codigo).Value, new { id = Funcionalidade.Codigo.ToString(), @class = "checkFuncionalidade" })
+                                                @Html.Raw(Html.ImageCheckBox(Model.funcionalidade.SingleOrDefault(x => x.Key.Codigo == Funcionalidade.Codigo).Value))
+                                                <input type="hidden" name="funcionalidades[@index].Key" value="@Funcionalidade.Codigo.ToString()"/>
+                                                <label for="@Funcionalidade.Codigo">@Funcionalidade.Descricao</label>                                                
+                                            </li>
+                                            index = index + 1;
+                                        }
+                                    </ul>
+                                </li>
+                            }
+                        </ul>
+                    </li>
+                }
+            </ul>
+        </div>
+        <br />
+        <br />
+        <p>
+            @Html.Raw(Html.Button(HtmlHelpers.TypeButton.Submit, "../../../../Content/Images/salvar-20.png", "save", "Salvar"))
+            @Html.Raw(Html.Button(HtmlHelpers.TypeButton.Back, "../../../../Content/Images/voltar-20.png", "", ""))
+        </p>
+    }
+</div>

@@ -1,0 +1,50 @@
+﻿@model Extratistico.Models.Entidades.Login
+
+@{
+    Layout = "~/Views/Shared/_MobileLayout.cshtml";
+    ViewBag.Title = "Log in";
+}
+
+@section Header {
+    @*@Html.ActionLink("Cancel", "Index", "Home", null, new { data_icon = "arrow-l", data_rel = "back" })*@
+    @*<h1>@ViewBag.Title</h1>*@
+}
+
+@*<p>
+    Please enter your user name and password. @Html.ActionLink("Register", "Register") if you don't have an account.
+</p>*@
+
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary()
+
+    <ul data-role="listview" data-inset="true">
+        <li data-role="list-divider"></li>
+
+        <li data-role="fieldcontain">
+            @Html.LabelFor(m => m.Username)
+            @Html.TextBoxFor(m => m.Username)
+        </li>
+
+        <li data-role="fieldcontain">
+            @Html.LabelFor(m => m.Password)
+            @Html.PasswordFor(m => m.Password)
+        </li>
+
+        @*<li data-role="fieldcontain">
+            @Html.LabelFor(m => m.RememberMe)
+            @Html.CheckBoxFor(m => m.RememberMe)
+        </li>*@
+
+        <li data-role="fieldcontain">
+            <input type="submit" value="Log in" />
+        </li>
+    </ul>
+}
+
+@section Scripts {
+    @System.Web.Optimization.Scripts.Render("~/bundles/jqueryval")
+}

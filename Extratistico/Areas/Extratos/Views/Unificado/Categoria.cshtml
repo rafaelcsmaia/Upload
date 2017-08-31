@@ -1,0 +1,53 @@
+﻿@model IEnumerable<Extratistico.Areas.Extratos.Models.Entidades.ExtratoVM>
+@using GridMvc.Html
+@{
+    ViewBag.Title = "Categoria";
+    Layout = "~/Views/Shared/Master.cshtml";
+}
+
+<head>
+    <link href="@Url.Content("~/Content/Gridmvc.css")" rel="stylesheet" />
+    <script src="@Url.Content("~/Scripts/jquery-1.9.1.min.js")"></script>
+    <script src="@Url.Content("~/Scripts/gridmvc.min.js")"></script>
+    <style>
+        .positivo
+        {
+            color:green;
+            font-weight:bold;
+        }
+
+        .negativo
+        {
+            color:red;
+            font-weight:bold;
+        }
+    </style>
+</head>
+
+<div class="content">
+
+        <img src="../../../../Content/Images/Categoria-64.png" alt="" class="content-img" />
+        <h2>Detalhes de Categoria: @Model.FirstOrDefault().Categoria</h2>
+        <p>Extrato dos lançamentos da categoria</p>
+
+    @Html.Grid(Model).Columns(column =>
+    {
+        column.Add().Encoded(false).Sanitized(false).Titled("Opções").RenderValueAs(
+            c => Html.ImageActionLink("../../../../Content/Images/Detalhes-32.png", "Detalhes", "Unificado", new { area="Extratos", documento = c.Documento }, null,null)
+            );
+        column.Add(c => c.Data).Titled("Data").Filterable(true).RenderValueAs(c => c.Data.ToShortDateString());
+        column.Add().Encoded(false).Sanitized(false).Titled("Procedência").RenderValueAs(c => c.Procedencia == "D" ? "<img src='../../../../Content/Images/Dinheiro-32.png' alt='' />" : c.Procedencia == "CD" ? "<img src='../../../../Content/Images/Debito-32.png' alt=''/>" : "<img src='../../../../Content/Images/Credito-32.png' alt=''/>");
+        column.Add(c => c.Operacao).Titled("Operação").Filterable(true);
+        column.Add(c => c.Estabelecimento).Titled("Estabelecimento").Filterable(true);//.RenderValueAs(c => Html.ActionLink(c.Categoria, "Detalhes", "Categorias", new { categoria=c.Categoria }, null));
+        column.Add(c=> c.Valor ).Encoded(false)
+        .Sanitized(false).Titled("Valor (R$)").Filterable(true)
+        .RenderValueAs(c => c.Valor > 0 ? "<span class='positivo'>" + c.Valor + "</span>" : "<span class='negativo'>" + c.Valor + "</span>");
+        column.Add(c => c.TipoOperacao).Titled("Tipo").Filterable(true);
+        column.Add(c => c.Categoria).Titled("Categoria").Filterable(true);
+        column.Add().Encoded(false)
+.Sanitized(false).Titled("Opções")
+.RenderValueAs(c => Html.ActionLink("Excluir Registro", "Excluir", "Unificado", new { tipo = c.Procedencia, documento = c.Documento, categoria = c.Categoria, ano = c.Data.Year, mes = c.Data.Month }, new { onclick = "return confirm('Confirma a exclusão do registro selecionado? Esta operação é permanente!');" }));
+    }).Sortable(true).WithPaging(20).WithMultipleFilters()
+
+</div>
+

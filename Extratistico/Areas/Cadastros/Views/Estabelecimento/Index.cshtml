@@ -1,0 +1,37 @@
+﻿@model IEnumerable<Extratistico.Areas.Cadastros.Models.Entidades.EstabelecimentoVM>
+@using GridMvc.Html
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/Master.cshtml";
+}
+
+<head>
+    <link href="@Url.Content("~/Content/Gridmvc.css")" rel="stylesheet" />
+    <script src="@Url.Content("~/Scripts/jquery-1.9.1.min.js")"></script>
+    <script src="@Url.Content("~/Scripts/gridmvc.min.js")"></script>
+</head>
+
+<div class="content">
+
+        <img src="../../../../Content/Images/Estabelecimento-64.png" alt="" class="content-img" />
+        <h2>Estabelecimentos</h2>
+    <p>Selecione o estabelecimento desejado abaixo</p>
+
+    <div class="options-list">
+        @Html.Raw(Html.Button(HtmlHelpers.TypeActionLink.Normal,"../../../../Content/Images/add-20.png",Html.ActionLink("Cadastrar","Cadastrar")))
+    </div>
+
+    @Html.Grid(Model).Columns(column =>
+    {
+        column.Add(c => c.Nome).Encoded(false)
+        .Sanitized(false).Titled("Nome").Filterable(true);
+        column.Add(c => c.Descricao).Titled("Descricao").Filterable(true);
+        column.Add(c => c.DescricaoTipo).Titled("Tipo").Filterable(true);
+        column.Add(c => c.Categoria).Titled("Categoria").Filterable(true);
+        column.Add().Encoded(false)
+.Sanitized(false).Titled("Options")
+.RenderValueAs(c => Html.ActionLink("Excluir", "Excluir", "Estabelecimento", new { nome = c.Nome }, new { onclick = "return confirm('Confirma a exclusão deste estabelecimento? Gastos relacionados a ela perderão a referência!');" }) + " " + Html.ActionLink("Editar", "Editar", "Estabelecimento", new { nome = c.Nome }, null));
+    }).Sortable(true).WithPaging(20).WithMultipleFilters()
+
+</div>
+

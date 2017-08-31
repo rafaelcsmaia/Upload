@@ -1,0 +1,18 @@
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/Master.cshtml";
+}
+
+<link href="../../../../Content/Database.css" rel="stylesheet" type="text/css" />
+@*<div><span style="float:left;">Sara Lee</span></div>*@
+<div id="bdcontainer">
+    
+    <div id="esquerda"></div>
+    <div id="centro">
+        <a href=@Url.Action("Cadastrar", "SGBD", new { tipo = "MySQL" }) ><img src="../../../../Content/Images/MySQL%20-%20Logo.png" class="bds"/></a>
+        <a href=@Url.Action("Cadastrar", "SGBD", new { tipo = "SQLServer" })><img src="../../../../Content/Images/SQLServer%20-%20Logo.png"  class="bds"/>
+        <a href=@Url.Action("Cadastrar", "SGBD", new { tipo = "Oracle" })><img src="../../../../Content/Images/Oracle%20-%20Logo.png" class="bds" />
+    </div>
+    <div id="direita"></div>
+</div>
+

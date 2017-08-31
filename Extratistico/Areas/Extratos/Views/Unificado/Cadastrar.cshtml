@@ -1,0 +1,157 @@
+﻿@model Extratistico.Areas.Extratos.Models.Entidades.DinheiroVM
+
+@{
+    ViewBag.Title = "Cadastrar";
+    Layout = "~/Views/Shared/Master.cshtml";
+}
+
+<script src="@Url.Content("~/Scripts/jquery.validate.min.js")"></script>
+<script src="@Url.Content("~/Scripts/jquery.validate.unobtrusive.min.js")"></script>
+<script src="@Url.Content("~/Scripts/jquery-1.9.1.min.js")"></script>
+<script src="@Url.Content("~/Scripts/jquery-ui.js")"></script>
+<script src="@Url.Content("~/Scripts/jquery.maskMoney.js")"></script>
+<link href="../../../../Content/jquery-ui.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#Data").datepicker();
+        $("#Valor").maskMoney({
+            symbol: 'R$ ',
+            showSymbol: true, thousands: '.', decimal: ',', symbolStay: true
+        });
+
+        $("#rdDebito").change(function () {
+            //if ($(this).val()) {
+            //    alert($(this).val());
+            //} else {
+            //    alert($(this).val());
+            //}
+        });
+
+        $("#Categorias").change(function () {
+            $.ajax({
+                type: "POST",
+                url: '/Cadastros/Categoria/TiposCategoria',
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                data: JSON.stringify({ categoria: $(this).val() }),
+                cache: false,
+                success: function (result) {
+                    var tipos = $("#Tipos");
+                    tipos.html("");
+                    if (result) {
+                        tipos.append($("<option />").val("").text("--Selecione um tipo--"));
+                        
+                        $.each(result, function () {
+                            tipos.append($("<option />").val(this.Value).text(this.Text));
+                        });
+                    }
+                },
+                error: function (req, status, error) {
+                    alert(error);
+                }
+            });
+
+            $.ajax({
+                type: "POST",
+                url: '/Cadastros/Estabelecimento/NomesCategoria',
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                data: JSON.stringify({ categoria: $(this).val() }),
+                cache: false,
+                success: function (result) {
+                    var tipos = $("#Estabelecimentos");
+                    tipos.html("");
+                    if (result) {
+                        tipos.append($("<option />").val("").text("--Selecione um estabelecimento--"));
+                        $.each(result, function () {
+                            tipos.append($("<option />").val(this.Value).text(this.Text));
+                        });
+                    }
+                },
+                error: function (req, status, error) {
+                    alert(error);
+                }
+            });
+        });
+
+        $("#Estabelecimentos").change(function () {
+            $("#Tipos").val($(this).val());
+            $("#Estabelecimento").val($("#Estabelecimentos option:selected").text());
+        });
+    });
+
+</script>
+
+<div class="content">
+    <img src="../../../../Content/Images/Dinheiro-64.png" alt="" class="content-img" />
+    <h2>Cadastrar Crédito/Débito</h2>
+    <p>
+        Preencha as informações de crédito/despesa abaixo
+    </p>
+    @using (Html.BeginForm())
+    {
+        @Html.ValidationSummary(false, "Os seguintes erros ocorreram durante a categorização:")
+
+
+        <fieldset>
+            <div class="editor-label">
+                @Html.Label("Categoria")
+            </div>
+            @Html.DropDownList("Categorias", "--Selecione uma Categoria--")
+            @Html.ActionLink("Nova Categoria", "Cadastrar", "Categoria", new { area = "Cadastros" }, null)
+
+                        <div class="editor-label">
+                @Html.LabelFor(model => model.Estabelecimento)
+            </div>
+            <div class="editor-field">
+                @Html.TextBoxFor(model => model.Estabelecimento)
+                ou Selecione:
+                <select id="Estabelecimentos" name="Estabelecimentos"></select>
+            </div>
+
+            <div class="editor-label">
+                @Html.LabelFor(model => model.Tipo)
+            </div>
+            <div class="editor-field">
+                <select id="Tipos" name="Tipos"></select>
+            </div>
+
+            <div class="editor-label">
+                @Html.LabelFor(model => model.Data, new { id="data"})
+            </div>
+            @*<input class="text-box single-line" id="Data" name="Data" type="datetime" value="@Model.Data.ToString("dd/MM/yyyy")">*@
+            <div class="editor-field">
+                @Html.TextBoxFor(model => model.Data)
+            </div>
+
+
+
+            <div class="editor-label">
+                @Html.LabelFor(model => model.Operacao)
+            </div>
+            <div class="editor-field">
+                @Html.TextBoxFor(model => model.Operacao)
+            </div>
+
+            <div class="editor-label">
+                @Html.Label("Valor")
+            </div>
+            <div class="editor-field">
+                Débito @Html.RadioButton("rdDC","Débito", new { id = "rdDebito" }) 
+                Crédito @Html.RadioButton("rdDC","Crédito", new { id = "rdCrédito" })
+            </div>
+            <div class="editor-field">
+                @Html.TextBoxFor(model => model.Valor)
+            </div>
+
+
+
+            <br />
+            <br />
+            <p>
+                @Html.Raw(Html.Button(HtmlHelpers.TypeButton.Submit, "../../../../Content/Images/salvar-20.png", "save", "Salvar"))
+                @Html.Raw(Html.Button(HtmlHelpers.TypeButton.Back, "../../../../Content/Images/voltar-20.png", "", "Voltar"))
+            </p>
+        </fieldset>
+    }
+</div>

@@ -1,0 +1,422 @@
+﻿@model Extratistico.Models.Entidades.InfoExtratoVM
+
+@{
+    ViewBag.Title = "Home";
+    Layout = "~/Views/Shared/Master.cshtml";
+}
+
+<head>
+    <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+    <script src="@Url.Content("~/Scripts/Grafico.js")"></script>
+    <script src="@Url.Content("~/Scripts/jquery-1.9.1.min.js")"></script>
+    <script src="@Url.Content("~/Scripts/jquery.bxslider.min.js")"></script>
+    <link href="@Url.Content("~/Content/jquery.bxslider.css")" rel="stylesheet" />
+    <script src="@Url.Content("~/Scripts/jquery-ui.js")"></script>
+    <script src="@Url.Content("~/Scripts/CustomDialogs.js")"></script>
+    <link href="../../../../Content/Grafico.css" rel="stylesheet" type="text/css" />
+    <link href="../../../../Content/jquery-ui.css" rel="stylesheet" type="text/css" />
+
+    <style>
+        .positivo
+        {
+            color: green;
+            font-weight: bold;
+        }
+
+        .negativo
+        {
+            color: red;
+            font-weight: bold;
+        }
+    </style>
+
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+            $('.bxslider').bxSlider({
+                mode: 'fade',
+                captions: true,
+                adaptiveHeight: true
+            });
+
+            $('#selectAno').val(new Date().getFullYear());
+            $('#selectMes').val(new Date().getMonth() + 1);
+            ReportLoad($('#selectAno').val(), $('#selectMes').val(), $('#selectMes option:selected').text());
+        });
+
+        google.load('visualization', '1', { packages: ['corechart'] });
+
+        function drawVisualization(dat, titulo, grafico) {
+
+            var dados = [];
+
+            for (i = 0; i < dat.length; i++) {
+                var arr = [];
+                for (j = 0; j < dat[i].length; j++) {
+                    arr.push(dat[i][j]);
+                }
+                dados.push(arr);
+            }
+            var data = google.visualization.arrayToDataTable(dados);
+
+            if (grafico == 'Projecao') {
+                try {
+                    var formatter = new google.visualization.NumberFormat({
+                        fractionDigits: 2,
+                        decimalSymbol: ',',
+                        groupingSymbol: '.',
+                        prefix: 'R$ '
+                    });
+                    formatter.format(data, 1);
+                    formatter.format(data, 2);
+                    formatter.format(data, 3);
+                }
+                catch (err) {
+                    alert(err.message);
+                }
+
+                var options = {
+                    title: titulo,
+                    vAxis: { title: "Valor" },
+                    hAxis: { title: "Dia" },
+                    seriesType: "bars",
+                    backgroundColor: '#deeef7',
+                    focusTarget: 'category',
+                    isStacked: 'true',
+                    series: {
+                        0: { color: '#5fbadd', type: "line", pointSize: 5, targetAxisIndex: 1 }
+                    }
+                };
+                var chart = new google.visualization.ComboChart(document.getElementById(grafico));
+            } else if (grafico == 'ResumoAnual') {
+                try {
+                    var formatter = new google.visualization.NumberFormat({
+                        fractionDigits: 2,
+                        decimalSymbol: ',',
+                        groupingSymbol: '.',
+                        prefix: 'R$ '
+                    });
+                    formatter.format(data, 1);
+                    formatter.format(data, 2);
+                    formatter.format(data, 3);
+                }
+                catch (err) {
+                    alert(err.message);
+                }
+
+                var options = {
+                    title: titulo,
+                    vAxis: { title: "Itens" },
+                    hAxis: { title: "Mês" },
+                    seriesType: "bars",
+                    backgroundColor: '#deeef7',
+                    focusTarget: 'category',
+                    series: {
+                        0: { color: '#e95c38' },
+                        1: { color: '#a5c753' },
+                        2: { color: '#5fbadd', type: "line", pointSize: 5 }
+                    }
+                };
+                var chart = new google.visualization.ComboChart(document.getElementById(grafico));
+            } else {
+                try {
+                    var formatter = new google.visualization.NumberFormat({
+                        fractionDigits: 2,
+                        decimalSymbol: ',',
+                        groupingSymbol: '.',
+                        prefix: 'R$ '
+                    });
+                    formatter.format(data, 1);
+                }
+                catch (err) {
+                    alert(err.message);
+                }
+
+                var options = {
+                    title: titulo,
+                    //vAxis: { title: "Itens" },
+                    //hAxis: { title: "Mês" },
+                    //seriesType: "bars",
+                    is3D: true,
+                    backgroundColor: '#deeef7',
+                    tooltip: { trigger: 'selection' }
+                    //series: { 5: { type: "line" } }
+                };
+                var chart = new google.visualization.PieChart(document.getElementById(grafico));
+            }
+
+            function selectHandlerDespesas() {
+                var selectedItem = chart.getSelection()[0];
+                if (selectedItem) {
+                    var categoria = data.getValue(selectedItem.row, 0);
+                    getDespesasDetalhes(categoria, $('#selectAno').val(), $('#selectMes').val());
+                }
+            }
+
+            function selectHandlerRecebimentos() {
+                var selectedItem = chart.getSelection()[0];
+                if (selectedItem) {
+                    var categoria = data.getValue(selectedItem.row, 0);
+                    getRecebimentosDetalhes(categoria, $('#selectAno').val(), $('#selectMes').val());
+                }
+            }
+
+            if (grafico == 'DespesasCategorias' || grafico == 'RecebimentosCategorias') {
+                if (grafico == 'DespesasCategorias') {
+                    google.visualization.events.addListener(chart, 'select', selectHandlerDespesas);
+                } else {
+                    google.visualization.events.addListener(chart, 'select', selectHandlerRecebimentos);
+                }
+                chart.setAction({
+                    id: 'sample',                  // An id is mandatory for all actions.
+                    text: 'Ver Extrato',       // The text displayed in the tooltip.
+                    action: function () {           // When clicked, the following runs.
+                        var selectedItem = chart.getSelection()[0];
+                        if (selectedItem) {
+                            var categoria = data.getValue(selectedItem.row, 0);
+                            window.location.href = "/Extratos/Unificado/Categoria/?categoria=" + categoria + "&ano=" + $('#selectAno').val() + "&mes=" + $('#selectMes').val() + "";
+                        }
+                    }
+                });
+
+            }
+            chart.draw(data, options);
+        }
+
+        function getDespesasDetalhes(categoria, ano, mes) {
+            $("#DespesasDetalhes").html('');
+            $("#DespesasDetalhes").css('background', 'url(../../Content/Images/ajax-loader.gif) no-repeat center center');
+            $.ajax({
+                type: "POST",
+                url: '/Home/DespesasDetalhes',
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                data: JSON.stringify({ categoria: categoria, ano: ano, mes: mes }),
+                cache: false,
+                success: function (result) {
+                    $("#DespesasDetalhes").css('background', '');
+                    drawVisualization(result, 'Detalhes de ' + categoria, 'DespesasDetalhes');
+                },
+                error: function (req, status, error) {
+                    $("#DespesasDetalhes").css('background', '');
+                    alert(error);
+                }
+            });
+        }
+
+        function getRecebimentosDetalhes(categoria, ano, mes) {
+            $("#RecebimentosDetalhes").html('');
+            $("#RecebimentosDetalhes").css('background', 'url(../../Content/Images/ajax-loader.gif) no-repeat center center');
+            $.ajax({
+                type: "POST",
+                url: '/Home/RecebimentosDetalhes',
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                data: JSON.stringify({ categoria: categoria, ano: ano, mes: mes }),
+                cache: false,
+                success: function (result) {
+                    $("#RecebimentosDetalhes").css('background', '');
+                    drawVisualization(result, 'Detalhes de ' + categoria, 'RecebimentosDetalhes');
+                },
+                error: function (req, status, error) {
+                    $("#RecebimentosDetalhes").css('background', '');
+                    alert(error);
+                }
+            });
+        }
+
+
+        function callBackYearMonthPicker(ano, mes, nomeMes) {
+            ReportLoad(ano, mes, nomeMes);
+        }
+
+        function ReportLoad(ano, mes, nomeMes) {
+            //Despesas
+            $("#DespesasCategorias").html('');
+            $("#DespesasDetalhes").html('');
+            $("#DespesasCategorias").css('background', 'url(../../Content/Images/ajax-loader.gif) no-repeat center center');
+            $.ajax({
+                type: "POST",
+                url: '/Home/ReportDespesasCategorias',
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                data: JSON.stringify({ ano: ano, mes: mes }),
+                cache: false,
+                success: function (result) {
+                    $("#DespesasCategorias").css('background', '');
+                    drawVisualization(result, 'Despesas por categoria - Mês: ' + nomeMes, 'DespesasCategorias');
+                },
+                error: function (req, status, error) {
+                    $("#DespesasCategorias").css('background', '');
+                    alert(error);
+                }
+            });
+
+            //Recebimentos
+            $("#RecebimentosCategorias").html('');
+            $("#RecebimentosDetalhes").html('');
+            $("#RecebimentosCategorias").css('background', 'url(../../Content/Images/ajax-loader.gif) no-repeat center center');
+            $.ajax({
+                type: "POST",
+                url: '/Home/ReportRecebimentosCategorias',
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                data: JSON.stringify({ ano: ano, mes: mes }),
+                cache: false,
+                success: function (result) {
+                    $("#RecebimentosCategorias").css('background', '');
+                    drawVisualization(result, 'Recebimentos por categoria - Mês: ' + nomeMes, 'RecebimentosCategorias');
+                },
+                error: function (req, status, error) {
+                    $("#RecebimentosCategorias").css('background', '');
+                    alert(error);
+                }
+            });
+
+            //Resumo
+            $("#ResumoAnual").html('');
+            $("#ResumoAnual").css('background', 'url(../../Content/Images/ajax-loader.gif) no-repeat center center');
+            $.ajax({
+                type: "POST",
+                url: '/Home/ReportResumoAnual',
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                data: JSON.stringify({ ano: ano }),
+                cache: false,
+                success: function (result) {
+                    $("#ResumoAnual").css('background', '');
+                    drawVisualization(result, 'Overview do Ano', 'ResumoAnual');
+                },
+                error: function (req, status, error) {
+                    $("#ResumoAnual").css('background', '');
+                    alert(error);
+                }
+            });
+
+            //Projeção Extatística
+            $("#Projecao").html('');
+            $("#Projecao").css('background', 'url(../../Content/Images/ajax-loader.gif) no-repeat center center');
+            $.ajax({
+                type: "POST",
+                url: '/Home/ReportProjecao',
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                data: JSON.stringify({ dias: 30 }),
+                cache: false,
+                success: function (result) {
+                    $("#Projecao").css('background', '');
+                    drawVisualization(result, 'Projeção Extatística - 30 dias', 'Projecao');
+                },
+                error: function (req, status, error) {
+                    $("#Projecao").css('background', '');
+                    alert(error);
+                }
+            });
+        }
+
+    </script>
+</head>
+
+<div class="content">
+    <img src="../../../../Content/Images/Financeiro-64.png" alt="" class="content-img" />
+    <h2>Resumo de Despesas</h2>
+    <p>Informativos gerais de informações financeiras</p>
+    <div class="options-list">
+        <table class="layout">
+            <tr>
+                <td>
+                    <img src='../../../../Content/Images/Cifrao-32.png' alt='' />
+                </td>
+                <td>
+                    <div>
+                        @Html.Label("Total Disponível: ") @Html.Raw(Model.DisponivelTotal > 0 ? "<span class='positivo'>R$ " + Model.DisponivelTotal + "</span>" : "<span class='negativo'>R$ " + Model.DisponivelTotal + "</span>")
+                    </div>
+                </td>
+                                <td>
+                    <img src='../../../../Content/Images/Credito-32.png' alt='' />
+                </td>
+                <td>
+                    <div>
+                        @Html.Label("Gastos no Crédito: ") @Html.Raw(Model.CartaoTotal > 0 ? "<span class='positivo'>R$ " + Model.CartaoTotal + "</span>" : "<span class='negativo'>R$ " + Model.CartaoTotal + "</span>")
+                    </div>
+                </td>
+                <td>
+                    <img src='../../../../Content/Images/Banco-32.png' alt='' />
+                </td>
+                <td>
+                    <div>
+                        @Html.Label("Total em Conta: ") @Html.Raw(Model.SaldoTotal > 0 ? "<span class='positivo'>R$ " + Model.SaldoTotal + "</span>" : "<span class='negativo'>R$ " + Model.SaldoTotal + "</span>")
+                    </div>
+                </td>
+                <td>
+                    <img src='../../../../Content/Images/Dinheiro-32.png' alt='' />
+                </td>
+                <td>
+                    <div>
+                        @Html.Label("Total em Dinheiro: ") @Html.Raw(Model.DinheiroTotal > 0 ? "<span class='positivo'>R$ " + Model.DinheiroTotal + "</span>" : "<span class='negativo'>R$ " + Model.DinheiroTotal + "</span>")
+                    </div>
+                </td>
+            </tr>
+
+        </table>
+
+    </div>
+    <div class="options-list">
+        @Html.YearMonthPickerDialog(2014)
+    </div>
+
+    <table>
+        <tr>
+            <td colspan="2">
+                <div class="bxslider">
+                    <div>
+                        <table>
+                            <tr>
+                                <td>
+                                    <div id="DespesasCategorias" style="width: 700px; height: 500px;">
+                                    </div>
+                                </td>
+                                <td>
+                                    <div id="DespesasDetalhes" style="width: 700px; height: 500px;">
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div>
+                        <table>
+                            <tr>
+                                <td>
+                                    <div id="RecebimentosCategorias" style="width: 700px; height: 500px;">
+                                    </div>
+                                </td>
+                                <td>
+                                    <div id="RecebimentosDetalhes" style="width: 700px; height: 500px;">
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </td>
+        </tr>
+
+
+        <tr>
+            <td colspan="2">
+                <div id="ResumoAnual" style="width: 1400px; height: 500px;">
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                <div style="width: 1400px; height: 500px; overflow-x:scroll ">
+                    <div id="Projecao" style="width: 2000px; height: 500px;">
+                    </div>
+                </div>                
+            </td>
+        </tr>
+    </table>
+
+
+</div>

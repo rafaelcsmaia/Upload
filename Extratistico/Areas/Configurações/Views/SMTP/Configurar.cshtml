@@ -1,0 +1,71 @@
+﻿@model Extratistico.Models.Entidades.SMTP
+
+@{
+    ViewBag.Title = "Configurar SMTP";
+    Layout = "~/Views/Shared/Master.cshtml";
+}
+<div class="content">
+
+    <img src="../../../../Content/Images/SMTP-64.png" alt="" class="content-img" />
+    <h2>Configurar SMTP</h2>
+    <p>
+        Defina as configurações para o serviço de envio de emails.
+    </p>
+
+        <script src="../../../../Scripts/jquery-1.9.1.min.js" type="text/javascript"></script>
+    <script src="../../../../Scripts/ImageCheckBox.js" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/jquery.validate.min.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/jquery.validate.unobtrusive.min.js")" type="text/javascript"></script>
+
+    @using (Html.BeginForm())
+    {
+        @Html.ValidationSummary(false, "Os seguintes erros ocorreram durante o cadastro:")
+        <fieldset>
+
+            <div class="editor-label">
+                @Html.LabelFor(model => model.Host)
+            </div>
+            <div class="editor-field">
+                @Html.EditorFor(model => model.Host)
+                @Html.ValidationMessageFor(model => model.Host,"*")
+            </div>
+
+            <div class="editor-label">
+                @Html.LabelFor(model => model.Porta)
+            </div>
+            <div class="editor-field">
+                @Html.EditorFor(model => model.Porta)
+                @Html.ValidationMessageFor(model => model.Porta,"*")
+            </div>
+
+            <div class="editor-label">
+                @Html.LabelFor(model => model.Username)
+            </div>
+            <div class="editor-field">
+                @Html.EditorFor(model => model.Username)
+                @Html.ValidationMessageFor(model => model.Username,"*")
+            </div>
+
+            <div class="editor-label">
+                @Html.LabelFor(model => model.Password)
+            </div>
+            <div class="editor-field">
+                @Html.PasswordFor(model => model.Password)
+                @Html.ValidationMessageFor(model => model.Password,"*")
+            </div>
+
+            <div class="editor-label">
+                @Html.Raw(Html.ImageCheckBox(Model.SSLEnabled))
+                @Html.CheckBoxFor(model => model.SSLEnabled, new { @class = "imagecheckbox" })
+                @Html.LabelFor(model => model.SSLEnabled)
+            </div>
+
+            <br />
+            <br />
+            <p>
+                @Html.Raw(Html.Button(HtmlHelpers.TypeButton.Submit, "../../../../Content/Images/salvar-20.png", "save", "Salvar"))
+                @Html.Raw(Html.Button(HtmlHelpers.TypeActionLink.Normal, "../../../../Content/Images/voltar-20.png", Html.ActionLink("Voltar", "Index", "Home", new { area = "" },null)))
+            </p>
+        </fieldset>
+    }
+</div>

@@ -1,0 +1,92 @@
+﻿@model Extratistico.Areas.Extratos.Models.Entidades.CategorizarExtratoVM
+
+@{
+    ViewBag.Title = "Categorizar";
+    Layout = "~/Views/Shared/Master.cshtml";
+}
+
+<script src="@Url.Content("~/Scripts/jquery.validate.min.js")"></script>
+<script src="@Url.Content("~/Scripts/jquery.validate.unobtrusive.min.js")"></script>
+<script src="../../../../Scripts/jquery-1.9.1.min.js" type="text/javascript"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#Categorias").change(function () {
+            $.ajax({
+                type: "POST",
+                url: '/Cadastros/Categoria/TiposCategoria',
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                data: JSON.stringify({ categoria: $(this).val() }),
+                cache: false,
+                success: function (result) {
+                    var tipos = $("#Tipos");
+                    tipos.html("");
+                    $.each(result, function () {
+                        tipos.append($("<option />").val(this.Value).text(this.Text));
+                    });
+                },
+                error: function (req, status, error) {
+                    alert(error);
+                }
+            });
+        });
+    });
+
+</script>
+
+<div class="content">
+    <img src="../../../../Content/Images/Categoria-64.png" alt="" class="content-img" />
+    <h2>Categorizar Despesa</h2>
+    <p>
+        Categoriza a despesa independente do seu estabelecimento
+    </p>
+    @using (Html.BeginForm())
+    {
+        @Html.ValidationSummary(false, "Os seguintes erros ocorreram durante a categorização:")
+
+
+        <fieldset>
+            @Html.HiddenFor(model => model.Procedencia)
+            <div class="editor-label">
+                @Html.LabelFor(model => model.Documento):
+                @Html.DisplayFor(model => model.Documento)
+            </div>
+
+            <div class="editor-label">
+                @Html.LabelFor(model => model.Estabelecimento):
+                @Html.DisplayFor(model => model.Estabelecimento)
+            </div>
+
+            <div class="editor-label">
+                @Html.LabelFor(model => model.Operacao):
+                @Html.DisplayFor(model => model.Operacao)
+            </div>
+
+            <div class="editor-label">
+                @Html.LabelFor(model => model.Data):
+                @Html.DisplayFor(model => model.Data)
+            </div>
+
+
+            @*<input class="text-box single-line" id="Data" name="Data" type="datetime" value="@Model.Data.ToString("dd/MM/yyyy")">*@
+            @*@Model.Data*@
+            <div class="editor-label">
+                @Html.LabelFor(model => model.Valor)
+                @Html.DisplayFor(model => model.Valor)
+            </div>
+            <br />
+
+
+            @Html.DropDownList("Categorias", "--Selecione uma Categoria--")
+            <select id="Tipos" name="Tipos"></select>
+            @Html.ActionLink("Nova Categoria", "Cadastrar", "Categoria", new { area = "Cadastros" }, null)
+            <br />
+            <br />
+            <p>
+                @Html.Raw(Html.Button(HtmlHelpers.TypeButton.Submit, "../../../../Content/Images/salvar-20.png", "save", "Salvar"))
+                @Html.Raw(Html.Button(HtmlHelpers.TypeButton.Back, "../../../../Content/Images/voltar-20.png", "", "Voltar"))
+            </p>
+        </fieldset>
+    }
+</div>
+

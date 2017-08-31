@@ -1,0 +1,75 @@
+@CHARSET "ISO-8859-1";
+
+ul{
+	list-style:none
+}
+
+.checkController, .checkFuncionalidade
+{
+    display:none;
+}
+
+.habilitado
+{
+    background: url("/Content/Images/habilitar-20.png") no-repeat top left;
+    width:20px;
+    height:20px;
+    border: 0px none;
+}
+
+.desabilitado
+{
+    background: url("/Content/Images/desabilitar-20.png") no-repeat top left ;
+    width:20px;
+    height:20px;
+    border: none;
+}
+
+.Area{
+	padding-bottom: 8px;
+	padding-top: 8px;
+}
+
+.Area > label
+{
+	cursor: pointer;
+	color: #696969;
+}
+
+.Area > label:hover
+{
+	color:blue;
+}
+
+.Area > ul{	
+	display: none;
+}
+
+.Area ul
+{
+	background-color: #f6f4f4;
+	color: #000000;
+}
+
+#tree ul
+{
+    margin:0px;
+	line-height: 0.5em;
+	margin-top: 5px;
+}
+
+li ul li{
+	color: #696969;
+}
+
+
+
+#tree{
+	width: 350px;	
+	font-weight: bold;
+	background: #f6f4f4;
+	font-size: 1em;
+	-webkit-border-radius: 3px;
+	-moz-border-radius:  3px;
+	border:solid;
+}

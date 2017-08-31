@@ -1,0 +1,46 @@
+﻿@model Extratistico.Areas.Extratos.Models.Entidades.UploadableVM
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/Master.cshtml";
+}
+
+<div class="content">
+    <div style="min-height: 80px;padding-top: 1px;">
+        <img src="../../../../Content/Images/upload-64.png" alt="" class="content-img" />
+        <h2>Upload de Arquivos</h2>
+        <p>
+            Integra as informações de sua conta com o sistema
+        </p>
+    </div>
+        @using (Html.BeginForm("Index", "UploadArquivos", FormMethod.Post, new { enctype = "multipart/form-data" }))
+        {
+            @Html.ValidationSummary(false, "Os seguintes erros ocorreram durante a carga:")
+
+            <fieldset>
+                @Html.ListBoxFor(model => model.TipoSelecionado, new SelectList(Model.Types, "FullName", "FullName"))
+                <div class="editor-label">
+                    <input type="file" name="file" id="file" />
+                </div>
+
+                <br />
+                <br />
+                <p>
+                    @Html.Raw(Html.Button(HtmlHelpers.TypeButton.Submit, "../../../../Content/Images/salvar-20.png", "save", "Salvar"))
+                    @Html.Raw(Html.Button(HtmlHelpers.TypeButton.Back, "../../../../Content/Images/voltar-20.png", "", ""))
+                </p>
+            </fieldset>
+
+            <h1>Cargas Anteriores</h1>
+
+            @Html.Grid(Model.Batches).Columns(column =>
+            {
+                column.Add().Encoded(false).Sanitized(false).Titled("Procedência").RenderValueAs(c => c.Type == "CD" ? "Debito" : "Credito");
+                column.Add(c => c.Records).Titled("Registros");
+                column.Add(c => c.Date).Titled("Data/Lote");
+                column.Add().Encoded(false)
+.Sanitized(false).Titled("Opções")
+.RenderValueAs(c => Html.ActionLink("Excluir Lote", "ExcluirLote", "UploadArquivos", new { tipo = c.Type, data = c.Date.ToString("yyyy-MM-dd HH:mm:ss") }, new { onclick = "return confirm('Confirma a exclusão do lote de carga de " + c.Type == "CD" ? "Debito" : "Credito" + " do dia " + c.Date + " ?');" }) + " " + Html.ActionLink("Detalhes", "DetalhesLote", "UploadArquivos", new { tipo = c.Type, data = c.Date.ToString("yyyy-MM-dd HH:mm:ss") }, null));
+            }).WithPaging(5)
+        }
+    </div>

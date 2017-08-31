@@ -1,0 +1,52 @@
+﻿@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Extratístico</title>
+    <link href="@Url.Content("~/Content/Site.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Content/DynamicMenu.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Content/bootstrap.custom.css")" rel="stylesheet" />
+    <link rel="shortcut icon" type="image/png" href="@Url.Content("~/Content/Images/Extratistico_Logo-16.png")" />
+</head>
+<body>
+    <div id="container">
+        <div class="top">
+            <div class="title">
+                <div class="title-container">
+                    <div class="left">
+                        
+                    </div>
+                    <div class="center">
+                    </div>
+                    @Html.Raw(Html.ContaUsuario(SessionHelper.GetSessionValue()))
+                </div>
+            </div>
+            <div id="menu-container">
+                @*<%--Renderização do menu dinâmico!--%>*@
+                @Html.Raw(Html.DynamicMenu(SessionHelper.GetSessionValue()))
+            </div>
+        </div>
+        <div class="middle">
+            <div class="middle-container">
+                @RenderBody()
+            </div>
+        </div>
+    </div>
+    <div class="footer">
+        <div class="footer-container">
+            <div class="left">
+            <span></span>
+            </div>
+            <div class="centered">
+                <span>Copyright © @DateTime.Now.Year , Rafael Maia - Todos os direitos reservados</span>
+            </div>
+            <div class="right">
+            <span></span>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

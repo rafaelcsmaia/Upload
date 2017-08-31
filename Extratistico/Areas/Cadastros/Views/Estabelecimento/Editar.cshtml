@@ -1,0 +1,60 @@
+﻿@model Extratistico.Areas.Cadastros.Models.Entidades.EstabelecimentoVM
+
+@{
+    ViewBag.Title = "Editar";
+    Layout = "~/Views/Shared/Master.cshtml";
+}
+
+<script src="@Url.Content("~/Scripts/jquery.validate.min.js")"></script>
+<script src="@Url.Content("~/Scripts/jquery.validate.unobtrusive.min.js")"></script>
+<script src="@Url.Content("~/Scripts/jquery-1.9.1.min.js")"></script>
+
+<div class="content">
+    <img src="../../../../Content/Images/Estabelecimento-64.png" alt="" class="content-img" />
+    <h2>Editando Estabalecimento: @Html.Label(Model.Nome)</h2>
+    <p>
+        Preencha os campos abaixo para efetuar a Edição de Usuário.
+    </p>
+    @using (Html.BeginForm())
+    {
+        @Html.ValidationSummary(false, "The following errors were found:")
+
+        <fieldset>
+            <div class="editor-div">
+                <div class="editor-label">
+                    @Html.HiddenFor(model => model.Nome)
+                </div>
+                <div class="editor-label">
+                    @Html.LabelFor(model => model.Descricao)
+                </div>
+                <div class="editor-field">
+                    @Html.EditorFor(model => model.Descricao)
+                    @Html.ValidationMessageFor(model => model.Descricao, "*")
+                </div>
+                <div class="editor-label">
+                    @Html.LabelFor(model => model.ManagerID)
+                </div>
+                <div class="editor-field">
+                    @Html.EditorFor(model => model.ManagerID)
+                    @Html.ValidationMessageFor(model => model.ManagerID, "*")
+                </div>
+                <div class="editor-label">
+                    @Html.LabelFor(model => model.DirectorID)
+                </div>
+                <div class="editor-field">
+                    @Html.EditorFor(model => model.DirectorID)
+                    @Html.ValidationMessageFor(model => model.DirectorID, "*")
+                </div>
+                <br />
+                <br />
+                <p>
+                    @Html.Raw(Html.Button(HtmlHelpers.TypeButton.Submit, "../../../../Content/Images/salvar-20.png", "save", "Save"))
+                    @Html.Raw(Html.Button(HtmlHelpers.TypeButton.Back, "../../../../Content/Images/voltar-20.png", "", ""))
+                </p>
+            </div>
+
+
+        </fieldset>
+    
+    }
+</div>

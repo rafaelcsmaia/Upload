@@ -1,0 +1,57 @@
+﻿@model Extratistico.Areas.Extratos.Models.Entidades.CategorizarExtratoVM
+
+@{
+    ViewBag.Title = "Categorizar";
+    Layout = "~/Views/Shared/Master.cshtml";
+}
+
+
+<div class="content">
+
+        <img src="../../../../Content/Images/Detalhes-64.png" alt="" class="content-img" />
+        <h2>Detalhes da despesa</h2>
+        <p>lala</p>
+
+    <fieldset>
+    <div class="editor-label">
+        @Html.LabelFor(model => model.Documento)
+        @Html.Label(Model.Documento)
+    </div>
+    <div class="editor-label">
+        @Html.LabelFor(model => model.Data)
+        @Model.Data.ToShortDateString()
+    </div>
+    <div class="editor-label">
+        @Html.LabelFor(model => model.Operacao)
+        @Model.Operacao
+        @if (Model.Tipo == string.Empty)
+        {
+            @Html.ActionLink("Cadastrar como Estabelecimento", "Cadastrar", "Estabelecimento", new { area = "Cadastros", nome = Model.Operacao }, null)
+        }
+
+    </div>
+    <div class="editor-label">
+        @Html.LabelFor(model => model.Estabelecimento)
+        @Model.Estabelecimento
+        @if (Model.Tipo == string.Empty)
+        {
+            @Html.ActionLink("Cadastrar como Estabelecimento", "Cadastrar", "Estabelecimento", new { area = "Cadastros", nome = Model.Estabelecimento }, null)
+        }
+
+    </div>
+    <div class="editor-label">
+        @Html.LabelFor(model => model.TipoExtrato)
+        @Model.TipoExtrato
+    </div>
+    <div class="editor-label">
+        @Html.LabelFor(model => model.Categoria)
+        @Model.Categoria
+    </div>
+
+    @if (Model.Tipo == string.Empty && Model.TipoExtrato == string.Empty)
+    {
+        //Não existe categorização atual para esta despesa
+        @Html.ActionLink("Categorizar Despesa", "Categorizar", "Unificado", new { area="Extratos",  documento = Model.Documento }, null)
+    }
+        </fieldset>
+</div>

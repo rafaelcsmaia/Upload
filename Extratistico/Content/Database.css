@@ -1,0 +1,114 @@
+﻿.bds2:hover > #SGBD
+{
+    background-color:Blue;
+    float:right;
+}
+
+.bds2 > #SGBD
+{
+    background-color:black;
+    float:right;
+}
+
+
+.bds
+{
+    opacity:0.5;
+    width:200px;
+    margin-top: 35px;
+    padding-right: 20px;
+}
+
+.bds:hover
+{
+    opacity:1;
+    cursor:pointer;
+}
+
+.bds2
+{
+    opacity:0.5;
+    width:150px;
+    margin-top: 35px;
+    padding-right: 20px;
+}
+
+.bds2:hover
+{
+    opacity:1;
+    cursor:pointer;
+}
+
+#esquerda
+{
+    background-image: url(../../Content/Images/BordaEsquerda.png);
+    width:50px;
+    height:254px;
+    float:left;
+}
+#centro
+{
+    background-image: url(../../Content/Images/BordaPreenchimento.png);
+    float:left;
+    height:254px;
+}
+#direita
+{
+    background-image: url(../../Content/Images/BordaDireita.png);
+    width:50px;
+    height:254px;
+    float:left;
+}
+
+#bdcontainer
+{
+    height:254px;
+    margin-top:-127px;
+    margin-left:-384px;
+	text-align:center;
+	position: absolute;
+	top:50%;
+	left:50%;
+}
+
+/* div com imagens que serão utilizadas na view Configurações/Database/Cadastrar*/
+.BD
+{
+    background-image: url(../../Content/Images/BD64.png);
+    width:64px;
+    height:77px;
+    float:left;
+    margin-top:12px;
+    margin-right:20px; 
+}
+
+.MySQL
+{
+    background-image: url(../../Content/Images/MySQL64.png);
+    width:64px;
+    height:77px;
+    float:left;
+    margin-top:12px;
+    margin-right:20px;
+}
+
+.SQLServer
+{
+    background-image: url(../../Content/Images/SqlServer64.png);
+    width:64px;
+    height:77px;
+    float:left;
+    margin-top:12px;
+    margin-right:20px;
+}
+.Oracle
+{
+    background-image: url(../../Content/Images/Oracle64.png);
+    width:64px;
+    height:77px;
+    float:left;
+    margin-top:12px;
+    margin-right:20px;
+}
+
+

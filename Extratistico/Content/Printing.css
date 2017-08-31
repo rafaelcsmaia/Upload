@@ -1,0 +1,112 @@
+﻿.report
+{
+	width: 800px;
+	height: 1000px;
+	margin-bottom: 60pt;
+}
+
+#last
+{
+	margin-bottom: 0pt;
+}
+
+.report-header
+{
+	border: solid;
+	border-width: 1px;
+	width: auto;
+	height: 150px;
+}
+
+.report-body
+{
+	border: solid;
+	border-width: 1px;
+	width: auto;
+	height: 810px;
+}
+
+.report-footer
+{
+	border: solid;
+	border-width: 1px;
+	width: auto;
+	height: 40px;
+}
+
+div.padder
+{
+	padding: 8pt 8pt 8pt 8pt;
+}
+
+.barcode
+{
+	font-family: '3 of 9 Barcode'; 
+	font-size: 18pt;
+}
+
+/*TABELA GENERICA*/
+table p
+{
+	margin:0px;
+}
+
+/*TABELA HEADER*/
+table.header
+{
+	width: auto;
+}
+
+	table.header td.titulo
+	{
+		font-size: 15pt;
+		font-weight:bold;
+	}
+
+table.header td
+{
+	padding-right: 32pt;
+	/*padding: 10px 5px 8px;*/
+	/*text-align: center;*/
+}
+
+/* TABELA BODY
+----------------------------------------------------------*/
+
+table.body
+{
+	border: solid 1px #DFDEDB;
+	border-collapse: collapse;
+	width: auto;
+}
+
+	table.body td
+	{
+		padding: 8pt 62pt 2pt 8pt;
+		/*padding-right: 32pt;*/
+		border: solid 1px #DFDEDB;
+	}
+
+	table.body th
+	{
+		padding: 6px 5px;
+		text-align: center;
+		background-color: #3b5998;
+		border: solid 1px #3b5998;
+		color: #FFFFFF;
+	}
+
+/* FIELDSET TABLE
+----------------------------------------------------------*/
+
+fieldset table.body
+{
+	border: none;
+}
+
+	fieldset table.body td
+	{
+		border: none;
+		padding-right: 60px;
+		vertical-align: top;
+	}

@@ -1,0 +1,58 @@
+﻿@model Extratistico.Models.Entidades.ContaViewModel
+
+@{
+    ViewBag.Title = "Editar";
+    Layout = "~/Views/Shared/Master.cshtml";
+}
+
+<script src="@Url.Content("~/Scripts/jquery.validate.min.js")"></script>
+<script src="@Url.Content("~/Scripts/jquery.validate.unobtrusive.min.js")"></script>
+<script src="@Url.Content("~/Scripts/jquery-1.9.1.min.js")"></script>
+<script src="@Url.Content("~/Scripts/ImageCheckBox.js")"></script>
+
+ <div class = "content"> 
+ <img src="../../../../Content/Images/user-64.png" alt="" class="content-img"/>    
+     <h2>Alterando dados da conta: @Html.Label(Model.UserName)</h2>
+     <p>
+        Preencha os campos abaixo com as novas informações.
+    </p>
+    @using (Html.BeginForm()) {
+    @Html.ValidationSummary(false, "Os seguintes erros ocorreram durante o cadastro:")
+
+        <fieldset>
+        <div class="editor-div">
+                        <div class="editor-label">
+                            @Html.HiddenFor(model => model.UserName)
+                        </div>
+                        <div class="editor-label">
+                            @Html.LabelFor(model => model.Email)
+                        </div>
+                        <div class="editor-field">
+                            @Html.EditorFor(model => model.Email)
+                            @Html.ValidationMessageFor(model => model.Email, "*")
+                        </div>
+                        <div class="editor-label">
+                            @Html.LabelFor(model => model.Senha)
+                        </div>
+                        <div class="editor-field">
+                            @Html.PasswordFor(model => model.Senha)
+                            @Html.ValidationMessageFor(model => model.Senha, "*")
+                        </div>
+                        <div class="editor-label">
+                            @Html.LabelFor(model => model.ConfirmarSenha)
+                        </div>
+                        <div class="editor-field">
+                            @Html.PasswordFor(model => model.ConfirmarSenha)
+                            @Html.ValidationMessageFor(model => model.ConfirmarSenha, "*")
+                        </div>
+                        <br />
+                        <br />
+                        <p>
+                            @Html.Raw(Html.Button(HtmlHelpers.TypeButton.Submit, "../../../../Content/Images/salvar-20.png", "save", "Salvar"))
+                            @Html.Raw(Html.Button(HtmlHelpers.TypeButton.Back, "../../../../Content/Images/voltar-20.png", "", ""))
+                        </p>
+                        </div>
+        </fieldset>
+    
+    }
+</div>

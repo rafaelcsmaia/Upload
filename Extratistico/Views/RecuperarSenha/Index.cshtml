@@ -1,0 +1,47 @@
+﻿@model Extratistico.Models.Entidades.Usuario
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/Master.cshtml";
+}
+
+<div class="content">
+    <img src="../../../../Content/Images/Password-64.png" alt="" class="content-img" />
+    <h2>Recuperar Senha</h2>
+    <p>
+        Preencha as informações abaixo para receber uma nova senha.
+    </p>
+
+    @using (Html.BeginForm())
+    {
+        @Html.ValidationSummary(true)
+
+        <fieldset>
+            <legend>Usuario</legend>
+
+            <div class="editor-label">
+                @Html.LabelFor(model => model.Username)
+            </div>
+            <div class="editor-field">
+                @Html.EditorFor(model => model.Username)
+                @Html.ValidationMessageFor(model => model.Username, "*")
+            </div>
+
+            <div class="editor-label">
+                @Html.LabelFor(model => model.Email)
+            </div>
+            <div class="editor-field">
+                @Html.EditorFor(model => model.Email)
+                @Html.ValidationMessageFor(model => model.Email, "*")
+            </div>
+
+            <p>
+                <input type="submit" value="Gerar nova senha" />
+            </p>
+        </fieldset>
+    }
+
+    <div>
+        @Html.ActionLink("Back to List", "Index")
+    </div>
+</div>

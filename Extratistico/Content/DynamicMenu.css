@@ -1,0 +1,96 @@
+﻿#menu {
+	width: 100%;
+	background: #3b5998;
+	float: left;
+	font-size: 1em;
+	/*border:ridge 1px #000000*/
+	border-bottom:inset 2px #3b5998;
+}
+
+#menu ul {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	width: 12em;
+	float: left;
+}
+
+#menu ul#primeiro
+{
+	padding-left:40px;
+}
+
+#menu a, #menu h2 {
+font: bold 11px/16px arial, helvetica, sans-serif;
+display: block;
+/*border-width: 1px;
+border-style: solid;
+border-color: #ccc #888 #555 #bbb;*/
+margin: 0;
+padding: 2px 3px;
+}
+
+#menu h2 {
+color: #ffffff;
+background: #3b5998;
+text-transform: uppercase;
+cursor:default;
+}
+
+#menu h2:hover
+{
+	background: #6d86b7;
+}
+
+#menu a {
+color: #FFFFFF;
+background: #3b5998;
+text-decoration: none;
+padding:0;
+}
+
+#menu a:hover {
+color: #ffffff;
+background: #6d86b7;
+cursor:pointer;
+/*border:ridge 2px #FFFFFF*/
+}
+
+#menu li {position: relative;width: 12em;}
+
+
+
+#menu li ul
+{
+	border-right:inset 2px #3b5998;
+	border-left:inset 2px #3b5998;
+	border-bottom:inset 2px #3b5998;
+}
+
+#menu ul ul ul {
+position: absolute;
+top: 0;
+left: 100%;
+}
+
+#menu ul ul {
+position: absolute;
+z-index: 500;
+}
+
+div#menu ul ul {
+display: none;
+}
+
+div#menu ul li:hover ul
+{display: block;}
+
+div#menu ul ul,
+div#menu ul li:hover ul ul,
+div#menu ul ul li:hover ul ul
+{display: none;}
+
+div#menu ul li:hover ul,
+div#menu ul ul li:hover ul,
+div#menu ul ul ul li:hover ul
+{display: block;}

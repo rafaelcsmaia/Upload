@@ -1,0 +1,59 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" >
+<head>
+<title>Styled checkbox</title>
+
+<script language="javascript" type="text/javascript">
+<!--
+function setCheckboxDisplay(el){
+	var objWrap;
+	objWrap = document.getElementById(el.id+"Wrap");
+	if(el) {
+	    if(el.checked) objWrap.className = "styledCheckboxWrap wrapChecked";
+	    else  objWrap.className = "styledCheckboxWrap";
+	}
+}
+-->
+</script>
+
+<style>
+.styledCheckbox
+   {
+   	height:20px;
+    	width:20px;
+   	filter:alpha(opacity=0.0);
+   	opacity:0.0;
+	outline:0
+   }
+   
+.styledCheckboxWrap
+{
+	position:relative;
+	float:left;
+	background:url("habilitar.png") no-repeat top left;
+	width:20px;
+	height:120px;
+	margin:3px;
+}
+.wrapChecked{position:relative;
+	float:left;
+	background:url("desabilitar.png") no-repeat top left;
+	width:20px;
+	height:120px;
+	margin:3px;}
+.checkboxLabel{
+	float:left;
+	cursor:pointer;
+	padding-top: 2px;
+}
+
+</style>
+
+</head>
+<body>
+<span>
+<span id="checkbox1Wrap" class="styledCheckboxWrap"><input type="checkbox" id="checkbox1" onclick="setCheckboxDisplay(this)" class="styledCheckbox" /></span>
+<label for="checkbox1" class="checkboxLabel">Checkbox 1</label> 
+</span>
+</body>
+</html>

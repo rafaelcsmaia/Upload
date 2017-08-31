@@ -1,0 +1,56 @@
+﻿@model System.Web.Mvc.HandleErrorInfo
+
+@{
+    ViewBag.Title = "Error";
+    Layout = "~/Views/Shared/Master.cshtml";
+}
+<script src="../../Scripts/jquery-1.9.1.min.js" type="text/javascript"></script>
+<script type="text/javascript">
+    function detalhes() {
+        $('#erro').animate({
+            opacity: 'toggle',
+            height: 'toggle'
+        }, 600);
+    }
+</script>
+    
+    <div class="content">
+    <img src="@Url.Content("~/Content/Images/warning-blue-64.png")" alt="" class="content-img" />
+    
+    <h2>Erro!</h2>
+    
+    <p>Ocorreu um erro na excução da solicitação. Em caso de dúvida entre em contato com o administrador do sistema.</p>
+    
+    <br />
+    
+    <!-- <%= Html.Button(CustomHelpers.TypeButton.Back, Url.Content("~/Content/Images/ico-
+        -20.png"), "", "")%> -->
+    
+    @Html.Raw(Html.ButtonJS(Url.Content("/Content/Images/add-20.png"),"btnVer","Detalhes","detalhes()"))
+    @Html.Raw(Html.Button(HtmlHelpers.TypeButton.Back, "/Content/Images/voltar-20.png", "", ""))
+     
+    <br />
+    <br />
+    
+    <div id="erro">
+    <strong>Controller: </strong> 
+    <br />
+    @this.ViewData.Model.ControllerName
+    <br />
+    <br />
+    
+    <strong>Action: </strong> 
+    <br />
+    @this.ViewData.Model.ActionName
+    <br />
+    <br />
+   
+    <strong>Erro: </strong>
+    <br />
+    @this.ViewData.Model.Exception.Message
+    <br />
+    </div>
+    
+    <br />
+
+    </div>

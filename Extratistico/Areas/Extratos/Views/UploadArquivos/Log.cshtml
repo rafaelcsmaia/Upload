@@ -1,0 +1,31 @@
+﻿@model Extratistico.Areas.Extratos.Models.Entidades.UploadLog
+
+@{
+    ViewBag.Title = "Log";
+    Layout = "~/Views/Shared/Master.cshtml";
+}
+
+<head>
+    <link href="@Url.Content("~/Content/Gridmvc.css")" rel="stylesheet" />
+    <script src="@Url.Content("~/Scripts/jquery-1.9.1.min.js")"></script>
+    <script src="@Url.Content("~/Scripts/gridmvc.min.js")"></script>
+</head>
+
+<div class="content">
+    <div style="min-height: 80px;">
+        <img src="../../../../Content/Images/Financeiro-64.png" alt="" class="content-img" />
+        <h2>File Upload</h2>
+    </div>
+
+    <h1>Total Records: @Model.TotalRecords</h1>
+    <h2 style="color:green;">Sucessfully Loaded Records: @Model.SuccessRecords</h2>
+    <h2 style="color:red;">Unsuccessfully Loaded Records: @Model.FailureRecords</h2>
+
+    @Html.Grid(Model.Log).Columns(column =>
+    {
+        column.Add(c => c.rowNumber).Titled("Row");
+        column.Add(c => c.Data).Titled("Data");
+        column.Add(c => c.ErrorMessage).Titled("Error Message");  
+    })
+
+</div>

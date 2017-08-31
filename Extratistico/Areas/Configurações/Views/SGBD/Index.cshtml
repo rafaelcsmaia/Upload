@@ -1,0 +1,51 @@
+﻿@model Extratistico.Models.Entidades.SGBD
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/Master.cshtml";
+}
+
+<link href="../../../../Content/Database.css" rel="stylesheet" type="text/css" />
+
+<div class="content">
+        <img src="../../../../Content/Images/BD64.png" alt="" class="BD" />
+    <h2>
+        Configuração de base de dados</h2>
+    <p>
+        Configuração da Base de Dados utilizada.
+    </p>
+    <script src="../../../../Scripts/jquery-1.9.1.min.js" type="text/javascript"></script>
+
+        @if (Model.Admin || Model.Tabelas)
+        {
+            <div class="validation-summary-errors" data-valmsg-summary="true"><span>Relatório de operações:</span>
+                <ul>
+                    @if(Model.Tabelas){
+                        <li>Tabelas do sistema criadas com sucesso!</li>
+                    }
+                    @if(Model.Admin){
+                        <li>Usuário 'Admin' criado com sucesso! (Senha padrão: 'admin')</li>
+                    }
+                </ul>
+            </div>
+        }
+    <fieldset>
+        <legend>sgbd</legend>
+
+        <div class="display-label">
+             @Html.DisplayNameFor(model => model.Tipo):
+             @Html.DisplayFor(model => model.Tipo)
+        </div>
+
+        <div class="display-label"> 
+             @Html.DisplayNameFor(model => model.ConnectionString):
+             @Html.DisplayFor(model => model.ConnectionString)
+        </div>
+    </fieldset>
+<p>
+    <div class="btn">
+        @Html.Raw(Html.Button(HtmlHelpers.TypeActionLink.Normal, "../../../../Content/Images/configurar-20.png", Html.ActionLink("Configurar", "Configurar", "SGBD")))
+    </div>
+</p>
+    </div>
+
