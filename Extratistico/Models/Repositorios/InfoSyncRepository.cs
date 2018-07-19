@@ -21,6 +21,7 @@ namespace Extratistico.Models.Repositorios
                 InfoSync i = new InfoSync();
                 i.message= r["MESSAGE"].ToString();
                 i.status = bool.Parse(r["STATUS"].ToString()) ? 1 : 0;
+                i.id = r["ID"].ToString();
                 resp.Add(i);
             }
             cnn.Close();

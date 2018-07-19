@@ -9,5 +9,6 @@ namespace Extratistico.Models.EntidadesWebAPI
     {
         public string message;
         public int status;
+        public string id;
     }
 }
