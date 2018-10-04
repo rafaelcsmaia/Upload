@@ -48,6 +48,22 @@ namespace Extratistico.Controllers
             return "value";
         }
 
+        [HttpGet]
+        public object AutoPushUpdate(double currentVersion)
+        {
+            double serverVersion = 1.0;
+            if (serverVersion > currentVersion)
+            {
+                return new { Result = true };
+            }
+            else
+            {
+                return new { Result = false };
+            }
+                        
+        }
+
+
         // GET api/webapi/Logon/arg0/arg1
         [HttpGet]
         public object Logon(string arg0, string arg1)

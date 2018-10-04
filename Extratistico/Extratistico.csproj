@@ -28,6 +28,7 @@
     <TargetFrameworkProfile />
     <WebGreaseLibPath>..\packages\WebGrease.1.5.2\lib</WebGreaseLibPath>
     <UseGlobalApplicationHostFile />
+    <Use64BitIISExpress />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -592,6 +593,7 @@
     <Content Include="Areas\Extratos\Views\Unificado\Cadastrar.cshtml" />
     <Content Include="Grid.mvc.readme" />
     <Content Include="Areas\Extratos\Views\UploadArquivos\DetalhesLote.cshtml" />
+    <Content Include="App_Data\AutoPush\AutoPush.apk" />
     <None Include="Scripts\jquery-1.9.1.intellisense.js" />
     <Content Include="Scripts\jquery-1.9.1.js" />
     <Content Include="Scripts\jquery-1.9.1.min.js" />
