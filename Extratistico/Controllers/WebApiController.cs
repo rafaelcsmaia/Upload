@@ -65,7 +65,7 @@ namespace Extratistico.Controllers
         }
 
         [HttpGet]
-        public object AutoPushAPK()
+        public object AutoPushAPK(string arg0)
         {
 
                 byte[] _Buffer = null;
