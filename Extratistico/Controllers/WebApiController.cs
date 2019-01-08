@@ -52,7 +52,7 @@ namespace Extratistico.Controllers
         [HttpGet]
         public object AutoPushUpdate(double arg0)
         {
-            double serverVersion = 1.7;
+            double serverVersion = 1.71;
             if (serverVersion > arg0)
             {
                 return new { Result = true };
